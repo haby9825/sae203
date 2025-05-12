@@ -103,11 +103,12 @@
           <th>Produit</th>
           <th>Date de départ</th>
           <th>Date de fin</th>
+          <th>Email</th>
           <th>Prénom</th>
           <th>Nom</th>
         </tr>
         <?php
-        $res=mysqli_query($link,"select r.reserv_id, r.start_date, r.end_date, p.product_name, c.name, c.lastname
+        $res=mysqli_query($link,"select r.reserv_id, r.start_date, r.end_date, p.product_name, c.name, c.lastname, c.email
             from reservations r
             join lienrp l ON r.reserv_id=l.reserv_id
             join products p ON l.product_id=p.product_id
@@ -118,6 +119,7 @@
             <td>{$data['product_name']}</td>
             <td>{$data['start_date']}</td>
             <td>{$data['end_date']}</td>
+            <td>{$data['email']}</td>
             <td>{$data['name']}</td>
             <td>{$data['lastname']}</td>
           </tr>";
@@ -143,7 +145,7 @@
         $res=mysqli_query($link, "select c.client_id, c.name, c.lastname, c.email,
                 count(r.reserv_id) as nb,
                 max(r.reservation_date) as dr,
-                sum(p.stock * p.price) as 'depense'
+                SUM(r.price) as 'depense'
                 from clients c
                 left join reservations r on c.client_id=r.client_id
                 left join lienrp on r.reserv_id=lienrp.reserv_id
@@ -169,23 +171,16 @@
         <h1>Ajouter un produit</h1>
             <form method='POST' enctype='multipart/form-data'>
             Nom<input type='text' name='product_name' required>
-            <BR><BR>
             Image<input type='file' name='img' required>
-            <BR><BR>
             Prix<input type='number' name='price' step='0.01' required>
-            <BR><BR>
             Stock<input type='number' name='stock' required>
-            <BR><BR>
             Disponibilité<select name='availability_status' required>
               <option value='disponible'>Disponible</option>
               <option value='non disponible'>Non disponible</option>
               <option value='en cours de réservation'>En cours de réservation</option>
             </select>
-            <BR><BR>
             Planète<input type='text' name='planet' required>
-            <BR><BR>
             <label for='description'>Description</label><textarea id='description' name='description'></textarea>
-            <BR><BR>
             Climat<select name='climate' required>
               <option value='humide'>Humide</option>
               <option value='arctique'>Arctique</option>
@@ -194,31 +189,26 @@
               <option value='desertique'>Désertique</option>
               <option value='absent'>Absent</option>
               </select>
-            <BR><BR>
-            Faune<select name='wildlife' required>
-              <option value='rare'>Rare</option>
-              <option value='riche'>Riche</option>
+              Faune<select name='wildlife' required>
+              <option value='inexistante'>Riche</option>
+              <option value='abondante'>Rare</option>
               <option value='inexistante'>Inexistante</option>
-              <option value='abondante'>Abondante</option>ù
+              <option value='abondante'>Abondante</option>
               </select>
-            <BR><BR>
-            Flore<select name='flora' required>
-              <option value='aucune'>Aucune</option>
+              Flore<select name='flora' required>
               <option value='luxuriante'>Luxuriante</option>
               <option value='exotique'>Exotique</option>
               <option value='diversifiee'>Diversifiée</option>
               <option value='minime'>Minime</option>
               <option value='mutante'>Mutante</option>
               </select>
-            <BR><BR>
-            Dangerosité<select name='danger_level' required>
+              Dangerosité<select name='danger_level' required>
               <option value='minimal'>Minimal</option>
               <option value='faible'>Faible</option>
               <option value='modere'>Modéré</option>
               <option value='eleve'>Élevé</option>
               <option value='extreme'>Extrême</option>
               </select>
-            <BR><BR>
         <input type='submit' name='suba' value'Ajouter'>
     </form>
 </div>
