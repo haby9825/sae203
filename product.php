@@ -16,7 +16,7 @@
             <nav>
             <a href="index.php">Accueil</a>
             <a href="reservation.php">Mes réservations</a>
-            <?php $Admin = isset($_SESSION['username']) && $_SESSION['username'] === 'admin';
+            <?php $Admin = isset($_SESSION['client_id']) && $_SESSION['client_id']==='13';
             if ($Admin) {
             echo '<a href="dashboard.php">Administration</a>';
             } ?>
